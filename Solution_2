@@ -1,0 +1,25 @@
+# Problem_Statement_2
+
+import pandas as pd
+import numpy as np
+import plotly.graph_objs as go
+import plotly.offline as po
+
+#read excel file
+df = pd.read_excel(r'C:\Users\hp\Documents\Untitled Folder\data.xlsx')
+
+#make value of every sunday as zero
+df[6::7]=0
+rf=df.iloc[:, 17:20]*1.5  #scale each days 6pm- 8pm by 1.5x
+df[['Hour 18','Hour 19', 'Hour 20']] = rf[['Hour 18','Hour 19', 'Hour 20']]
+print(df)
+
+#write output to excel
+writer = pd.ExcelWriter(r'C:\Users\hp\Documents\Untitled Folder\Solution_data_2.xlsx')
+df.to_excel(writer,'Sheet1',index=False)
+writer.save()
+
+#plot matrix
+import plotly.express as px
+fig = px.scatter_matrix(df)
+po.plot(fig)
